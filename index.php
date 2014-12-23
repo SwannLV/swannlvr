@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Cardboard Example</title>
+    <title>Swann L VR</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -25,6 +25,7 @@
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
+  <script src="fonts/optimer_bold.typeface.js"></script>
 
   <script>
     var camera, scene, renderer;
@@ -77,29 +78,70 @@
 
 
       var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
-      scene.add(light);
+          light.position.y = 50;
+          scene.add(light);
+      
+      var light2 = new THREE.PointLight( 0xffffff, 1.5, 4500 );
+					//light2.color.setHSL( h, s, l );
+					light2.position.set( 0, 50, 500 );
+					scene.add( light2 );
 
       var texture = THREE.ImageUtils.loadTexture(
-        'textures/patterns/checker.png'
-      );
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat = new THREE.Vector2(50, 50);
-      texture.anisotropy = renderer.getMaxAnisotropy();
+            'textures/patterns/checker.png'
+          );
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
+          texture.repeat = new THREE.Vector2(50, 50);
+          texture.anisotropy = renderer.getMaxAnisotropy();
 
       var material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        shininess: 20,
-        shading: THREE.FlatShading,
-        map: texture
-      });
+            color: 0xFF5555,
+            specular: 0xffffff,
+            shininess: 1,
+            shading: THREE.FlatShading,
+            map: texture
+          });
 
       var geometry = new THREE.PlaneGeometry(1000, 1000);
 
       var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.x = -Math.PI / 2;
-      scene.add(mesh);
+          mesh.rotation.x = -Math.PI / 2;
+          scene.add(mesh);
+      
+      var text = "UNION",
+    			height = 20,
+    			size = 70,
+    			hover = 30,
+    			curveSegments = 4,
+    			bevelThickness = 2,
+    			bevelSize = 1.5,
+    			bevelSegments = 3,
+    			bevelEnabled = true,
+    			font = "optimer", // helvetiker, optimer, gentilis, droid sans, droid serif
+    			weight = "bold", // normal bold
+    			style = "normal"; // normal italic
+      var textGeo = new THREE.TextGeometry( text, {
+    				size: size,
+    				height: height,
+    				curveSegments: curveSegments,
+    				font: font,
+    				weight: weight,
+    				style: style,
+    				bevelThickness: bevelThickness,
+    				bevelSize: bevelSize,
+    				bevelEnabled: bevelEnabled,
+    				material: 0,
+    				extrudeMaterial: 1
+    			});
+    			textGeo.computeBoundingBox();
+    			textGeo.computeVertexNormals();
+      var textMesh1 = new THREE.Mesh( textGeo, material );
+    			textMesh1.position.x = 0;
+    			textMesh1.position.y = 50;
+    			textMesh1.position.z = - 200;
+    			textMesh1.rotation.x = 0;
+    			textMesh1.rotation.y = 100;
+    			scene.add(textMesh1);
 
       window.addEventListener('resize', resize, false);
       setTimeout(resize, 1);
