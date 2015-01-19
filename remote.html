@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script src="/node_modules/socket.io/node_modules/socket.io-client/socket.io.js "></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>-->
+    
+    <script type="text/javascript">
+    
+    $(function() {
+        
+        ////////////////////
+        ////// SOCKET //////
+        ////////////////////
+        
+        var socket = io.connect('http://'+window.location.host);
+
+        socket.on('msg', function(data) {
+            console.log(data)
+        });
+
+        socket.on('init', function(data) {
+            var ee = JSON.parse(data);
+        });
+        
+        $('#forward').on('touchstart mousedown',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            if(e.handled !== true) {
+                e.handled = true;
+                
+                var data = {};
+                data.walkingSpeed = 1;
+                socket.emit('msg', JSON.stringify(data));
+
+            } else { return false; }
+        });
+        $('#forward').on('touchend mouseup',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            if(e.handled !== true) {
+                e.handled = true;
+                
+                var data = {};
+                data.walkingSpeed = 0;
+                socket.emit('msg', JSON.stringify(data));
+                
+            } else { return false; }
+        });
+        
+        $('#backward').on('touchstart mousedown',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            if(e.handled !== true) {
+                e.handled = true;
+                
+                var data = {};
+                data.walkingSpeed = -1;
+                socket.emit('msg', JSON.stringify(data));
+
+            } else { return false; }
+        });
+        $('#backward').on('touchend mouseup',function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            if(e.handled !== true) {
+                e.handled = true;
+                
+                var data = {};
+                data.walkingSpeed = 0;
+                socket.emit('msg', JSON.stringify(data));
+                
+            } else { return false; }
+        });
+
+        
+    });
+    </script>
+</head>
+
+<body id="body" style="vertical-align: middle; text-align: center;">
+    <!--<div class="btn-group" role="group" aria-label="...">-->
+    <button id="forward" type="button" class="btn btn-primary btn-lg btn-block" style="height:50%;font-size: 150;">Forward</button>
+    <button id="backward" type="button" class="btn btn-default btn-lg btn-block" style="height:50%;font-size: 150;">Backward</button>
+    <!--</div>-->
+</body>

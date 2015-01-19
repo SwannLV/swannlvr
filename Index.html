@@ -21,13 +21,36 @@
   <body>
     <div id="example"></div>
 
+  
   <script src="js/third-party/threejs/three.min.js"></script>
   <script src="js/third-party/threejs/StereoEffect.js"></script>
   <script src="js/third-party/threejs/DeviceOrientationControls.js"></script>
   <script src="js/third-party/threejs/OrbitControls.js"></script>
   <script src="fonts/optimer_bold.typeface.js"></script>
+  <script src="/node_modules/socket.io/node_modules/socket.io-client/socket.io.js "></script>
 
   <script>
+    ////////////////////
+    ////// SOCKET //////
+    ////////////////////
+        
+    var socket = io.connect('http://'+window.location.host);
+
+    socket.on('msg', function(data) {
+        walkingSpeed = data.walkingSpeed;
+        console.log(walkingSpeed);
+    });
+
+    socket.on('init', function(data) {
+        var ee = JSON.parse(data);
+    });
+        
+    
+    ////////////////////
+    /////// GAME ///////
+    ////////////////////
+    
+    var walkingSpeed = 0;
     var camera, scene, renderer;
     var effect, controls;
     var element, container;
@@ -162,7 +185,7 @@
       resize();
 
       camera.updateProjectionMatrix();
-
+      
       controls.update(dt);
     }
 
