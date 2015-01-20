@@ -143,31 +143,43 @@ THREE.OrbitControls = function ( object, domElement ) {
 
   };
 
-  // pass in distance in world space to move left
+    // pass in distance in world space to move left
   this.panLeft = function ( distance ) {
-
-    var te = this.object.matrix.elements;
-
-    // get X column of matrix
-    panOffset.set( te[ 0 ], te[ 1 ], te[ 2 ] );
-    panOffset.multiplyScalar( - distance );
-
-    pan.add( panOffset );
-
+  
+      var te = this.object.matrix.elements;
+  
+      // get elements from the X-column of matrix
+      panOffset.set( te[ 0 ], 0, te[ 2 ] ).normalize();
+      panOffset.multiplyScalar( - distance );
+  
+      pan.add( panOffset );
+  
   };
-
-  // pass in distance in world space to move up
+  
+  // pass in distance in world space to move forward
   this.panUp = function ( distance ) {
-
-    var te = this.object.matrix.elements;
-
-    // get Y column of matrix
-    panOffset.set( te[ 4 ], te[ 5 ], te[ 6 ] );
-    panOffset.multiplyScalar( distance );
-
-    pan.add( panOffset );
-
+  
+      var te = this.object.matrix.elements;
+  
+      // get elements from the Z-column of matrix
+      panOffset.set( te[ 8 ], 0, te[ 10 ] ).normalize();
+      panOffset.multiplyScalar( - distance );
+  
+      pan.add( panOffset );
+  
   };
+  
+  // this.panUp = function ( distance ) {
+
+  //   var te = this.object.matrix.elements;
+
+  //   // get Y column of matrix
+  //   panOffset.set( te[ 4 ], te[ 5 ], te[ 6 ] );
+  //   panOffset.multiplyScalar( distance );
+
+  //   pan.add( panOffset );
+
+  // };
 
   // pass in x,y of change desired in pixel space,
   // right and down are positive
