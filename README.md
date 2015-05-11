@@ -1,4 +1,4 @@
-# swannlvr
+# swannlvr - virtual reality
 > A Google Cardboard Remote Controller Experiment
 
 ## Google Cardboard screen
